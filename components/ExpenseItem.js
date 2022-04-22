@@ -5,7 +5,7 @@ import { getFormattedDate } from "../util/date"
 
 function ExpensesItem(props){
   const navigation = useNavigation()
-  const expensePressHandler = () => navigation.navigate("ManageExpense", {expenseId: id})
+  const expensePressHandler = () => navigation.navigate("ManageExpense", {expenseId: props.id})
 
   return ( 
     <Pressable 

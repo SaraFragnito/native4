@@ -1,24 +1,42 @@
 import { View, StyleSheet } from "react-native"
-import { useLayoutEffect } from "react"
+import { useLayoutEffect, useContext } from "react"
 import IconButton from "../components/UI/IconButton"
 import { GlobalStyles } from "../constants/styles"
 import Button from "../components/UI/Button"
+import { ExpensesContext } from "../store/expenses-context"
 
 function ManageExpenses({route, navigation}) {
+  const expensesCtx = useContext(ExpensesContext)
   const editedExpenseId = route.params?.expenseId // entra in expenseId solo se esiste params
   const isEditing = !!editedExpenseId // !! converte un valore in un booleano 
 
   useLayoutEffect(() => { //navigation.setOptions va sempre messo dentro useEffect o useLayoutEffect
     navigation.setOptions({ title: isEditing ? "Edit Expense" : "Add Expense" })
   }, [navigation, isEditing])
+  
+  const cancelHandler = () => navigation.goBack()
 
   const deleteExpenseHandler = () => {
+    expensesCtx.deleteExpense(editedExpenseId)
     navigation.goBack()
   }
-  const cancelHandler = () => {
-    navigation.goBack()
-  }
+
   const confirmHandler = () => {
+    if (isEditing){
+      expensesCtx.updateExpense(
+        editedExpenseId, {
+            description: "Test update", 
+            amount: 9.99, 
+            date: new Date("2022-04-21")
+          }
+        )
+     } else {
+      expensesCtx.addExpense({
+        description: "Test add", 
+        amount: 9.99, 
+        date: new Date("2022-04-22")
+      })
+    }
     navigation.goBack()
   }
 
