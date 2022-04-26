@@ -3,8 +3,6 @@ import { GlobalStyles } from "../../constants/styles"
 import ExpensesList from "./ExpensesList"
 import ExpensesSummary from "./ExpensesSummary"
 
-
-
 function ExpensesOutput(props){
   let content = <Text style={styles.infoText}>{props.fallbackText}</Text>
   if (props.expenses.length > 0) content = <ExpensesList expenses={props.expenses} />
